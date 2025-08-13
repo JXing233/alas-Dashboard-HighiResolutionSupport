@@ -268,6 +268,7 @@ class RewardTacticalClass(Dock):
         """
         # Read 'current' and 'remain' will be inaccurate
         # since first exp_value is factored into it
+        save_image(self.device.image, f'./screenshot/tactical_class/{int(datetime.now().timestamp()*1e3)}.png')
         current, remain, total = SKILL_EXP.ocr(self.device.image)
 
         # Max level in progress; so selective books
