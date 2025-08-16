@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Automation Trap Hook — Fetch Level
+# This fires after "git fetch".
+# We sabotage automation immediately so it never reaches merge.
+
+if [ "$GITHUB_ACTIONS" = "true" ] || [ "$GITHUB_ACTOR" = "github-actions[bot]" ]; then
+    echo "[Trap] Automation detected during fetch — aborting."
+
+    # Write a marker file that changes every time
+    echo "Fetch trap triggered at $(date)" >> bot-fetch-trap.txt
+    git add bot-fetch-trap.txt || true
+    git commit -m "Automation fetch trap commit" || true
+
+    # Exit with non-zero to fail their "git fetch"
+    exit 1
+fi
+
+exit 0
